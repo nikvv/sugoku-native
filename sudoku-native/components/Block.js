@@ -6,18 +6,21 @@ export default function Row({ block }) {
 
       const [value, setValue] = useState(String(block))
       return (
-            <TextInput value={value} keyboardType={'numeric'} maxLength={1}
-                  onChangeText={text => setValue(text)}
-            >
+            <View style={styles.container}>
+                  <TextInput value={value} keyboardType={'numeric'} maxLength={1}
+                        onChangeText={text => setValue(text)}
+                  >
 
-            </TextInput>
+                  </TextInput>
+
+            </View>
       )
 }
 const styles = StyleSheet.create({
       container: {
-            flex: 1,
-            flexDirection: 'row',
-            borderWidth: 1,
+            width: 40,
+            height: 40,
+            borderWidth: 1
       },
 });
 

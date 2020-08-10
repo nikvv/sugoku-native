@@ -38,6 +38,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
 });

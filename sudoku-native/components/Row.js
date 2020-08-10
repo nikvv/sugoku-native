@@ -5,17 +5,20 @@ import Block from './Block'
 
 export default function Row({ row }) {
       return (
-            row.map((block, idx) => {
-                  return <Block key={idx} block={block} />
-            })
+            <View style={styles.container}>
+                  {
+                        row.map((block, idx) => {
+                              return <Block key={idx} block={block} />
+                        })
+                  }
+                  <StatusBar style="auto" />
+            </View>
       )
 }
-
 const styles = StyleSheet.create({
       container: {
             flex: 1,
-            flexDirection="row",
-            borderWidth: 1,
+            flexDirection: "row",
       },
 });
 
