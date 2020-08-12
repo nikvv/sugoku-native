@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "sudoku-native",
-    "slug": "sudoku-native",
+    "name": "nikvv-sugoku",
+    "slug": "nikvv-sugoku",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,6 +21,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "Test your sanity by playing this basic Sudoku!"
   }
 }

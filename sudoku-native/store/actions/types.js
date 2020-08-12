@@ -1,0 +1,6 @@
+export const SET_RESULT_BLOCK = 'SET_RESULT_BLOCK'
+export const SET_BOARD = 'SET_BOARD'
+export const SET_STATUS = 'SET_STATUS'
+export const SOLVE_BOARD = 'SOLVE_BOARD'
+export const CLEAR_BOARD = 'CLEAR_BOARD'
+export const UPDATE_BOARD_BLOCK = 'UPDATE_BOARD_BLOCK'
