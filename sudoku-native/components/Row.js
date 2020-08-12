@@ -3,21 +3,21 @@ import { View, TextInput, StyleSheet, Text } from 'react-native'
 import { StatusBar } from 'expo-status-bar';
 import Block from './Block'
 
-export default function Row({ row }) {
+export default function Row({ rowIdx, row, lastRow, isThird }) {
       return (
-            <View style={styles.container}>
+            <View style={[styles.container, { borderBottomWidth: lastRow || isThird }]}>
                   {
                         row.map((block, idx) => {
-                              return <Block key={idx} block={block} />
+                              const isThird = (idx + 1) % 3 === 0 ? 2 : 0
+                              const lastCol = row.length === (idx + 1) ? 1 : 0
+                              return <Block rowIdx={rowIdx} blockIdx={idx} key={idx} lastCol={lastCol} isThird={isThird} block={block} />
                         })
                   }
-                  <StatusBar style="auto" />
             </View>
       )
 }
 const styles = StyleSheet.create({
       container: {
-            flex: 1,
             flexDirection: "row",
       },
 });

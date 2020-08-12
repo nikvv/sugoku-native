@@ -1,43 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, FlatList } from 'react-native';
-import Row from './components/Row'
-import axios from './axios.config.js'
+import React from 'react';
+import { NavigationContainer } from "@react-navigation/native"
+import { createStackNavigator } from "@react-navigation/stack"
+import Start from './screens/Start';
+import Game from './screens/Game';
+import Finish from './screens/Finish';
+import { Provider } from 'react-redux';
+import store from './store'
+
+
+const Stack = createStackNavigator()
 
 export default function App() {
-
-  const [board, setBoard] = useState([])
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const resp = await axios.get('/board')
-        setBoard(resp.data.board)
-      } catch (error) {
-        console.log({ error })
-      }
-    }
-    fetchData()
-  }, [])
-
-  console.log(board)
   return (
-    <View style={styles.container}>
-      {
-        board.length > 0 && board.map((row, idx) => {
-          return < Row key={idx} row={row} />
-        })
-      }
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}>
+          <Stack.Screen
+            name="Start"
+            component={Start}
+          />
+          <Stack.Screen
+            name="Game"
+            component={Game}
+          />
+          <Stack.Screen
+            name="Finish"
+            component={Finish}
+          />
+          {/* <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Finish" component={Finish} /> */}
+        </Stack.Navigator>
+      </NavigationContainer>
 
-    </View>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    textAlign: 'center',
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    // justifyContent: 'center',
-  },
-});
