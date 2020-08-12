@@ -1,18 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, View, KeyboardAvoidingView } from 'react-native';
-import { setBoardAsync, solveBoardAsync, setResultAction, clearBoardAction, validateBoardAsync } from "../store/actions";
-import axios from '../store/actions/axios.config'
-import Row from '../components/Row'
+import { Text, View, KeyboardAvoidingView } from 'react-native';
+import { setBoardAsync, solveBoardAsync, clearBoardAction, validateBoardAsync } from "../store/actions";
+import Row from '../components/Row';
+import Loading from '../components/Loading'
+import tailwind from 'tailwind-rn';
+import CountDown from 'react-native-countdown-component';
+
 
 
 export default function Start({ navigation, route }) {
+
 
       const dispatch = useDispatch()
       const { difficulty, name } = route.params
       const board = useSelector(state => state.boardReducer.data)
       const status = useSelector(state => state.boardReducer.status)
+      const initialTime = 200
+      const [time, setTime] = useState(0)
+      const isRunning = status === 'solved' ? false : true
       useEffect(() => {
             const payload = {
                   difficulty
@@ -23,50 +30,41 @@ export default function Start({ navigation, route }) {
 
 
       useEffect(() => {
-            console.log('INI useEffect dari Game.js')
       }, [board])
-      // async function fetchData(difficulty) { 
-      //       // clearBoard()
-      //       const payload = {
-      //             difficulty
-      //       }
-      //       try {
-      //             dispatch(setBoardAsync(payload))
-      //             navigation.navigate('Game')
-      //       } catch (error) {
-      //             console.log({ error })
-      //       }
-      // }
-
-
-      function clearBoard() {
-            dispatch(clearBoardAction())
-      }
 
       function solveBoard() {
             dispatch(solveBoardAsync(board))
       }
+
       function validateBoard() {
             dispatch(validateBoardAsync(board))
       }
+
       function finishGame() {
             if (status === 'solved') {
-                  navigation.navigate('Finish')
+                  navigation.navigate('Finish', { name, time })
             }
       }
 
-      return <KeyboardAvoidingView style={{ marginTop: 10 }}>
-            {
-                  board.length > 0 && <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <Button title='Clear' style={{}} onPress={() => clearBoard()} />
-                  </View>
-            }
+      if (!board.length) return <Loading />
 
-            <KeyboardAvoidingView style={{ marginTop: 10 }} behavior='padding'>
+      return <KeyboardAvoidingView>
+            <CountDown
+                  until={initialTime}
+                  onChange={(time) => { setTime(initialTime - time) }}
+                  running={isRunning}
+                  onFinish={() => alert('finished')}
+                  onPress={() => alert('hello')}
+                  size={15}
+                  timeToShow={['M', 'S']}
+                  timeLabels={{ m: 'MM', s: 'SS' }}
+            />
+            <KeyboardAvoidingView style={{ marginTop: 10 }} behavior='height'>
                   {
                         board.length > 0 && board.map((row, idx) => {
                               const lastRow = board.length === (idx + 1) ? 1 : 0
-                              const isThird = (idx + 1) % 3 === 0 ? 2 : 0
+                              const isThird = (idx + 1) % 3 === 0 ? 3 : 0
+
 
                               return <View style={{ alignItems: 'center' }} key={idx}>
                                     < Row rowIdx={idx} lastRow={lastRow} isThird={isThird} row={row} />
@@ -77,22 +75,22 @@ export default function Start({ navigation, route }) {
             </KeyboardAvoidingView>
 
 
-            <View style={{ marginTop: 10 }}>
+            <View>
                   {
-                        board.length > 0 && <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                              <Button title='Solve' style={{}} onPress={() => solveBoard()} />
+                        board.length > 0 && <View style={tailwind(`w-32 bg-orange-200 px-6 py-2 mt-5 rounded`)}>
+                              <Text style={tailwind('text-orange-900 font-bold')} onPress={() => solveBoard()} >Solve</Text>
                         </View>
                   }
 
                   {
-                        board.length > 0 && <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                              <Button title='Validate' style={{}} onPress={() => validateBoard()} />
+                        board.length > 0 && <View style={tailwind(`w-40 bg-yellow-200 px-6 py-2 mt-5 rounded`)}>
+                              <Text style={tailwind('text-yellow-900 font-bold')} onPress={() => validateBoard()} >Validate</Text>
                         </View>
                   }
 
                   {
-                        board.length > 0 && <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                              <Button title='Finish' style={{}} onPress={() => finishGame()} />
+                        status === 'solved' && <View style={tailwind(`w-48 bg-indigo-200 px-6 py-2 mt-5 rounded`)}>
+                              <Text style={tailwind('text-indigo-900 font-bold')} onPress={() => finishGame()} >Finish</Text>
                         </View>
                   }
 

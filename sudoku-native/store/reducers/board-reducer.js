@@ -1,8 +1,8 @@
-import { SET_BOARD, CLEAR_BOARD, SOLVE_BOARD, SET_STATUS } from "../actions/types"
+import { SET_BOARD, UPDATE_BOARD_BLOCK, CLEAR_BOARD, SOLVE_BOARD, SET_STATUS } from "../actions/types"
 
 const initialState = {
       data: [],
-      isEditable: [],
+      editableBlocks: [],
       status: ''
 }
 
@@ -10,15 +10,18 @@ export default (state = initialState, { type, payload }) => {
       switch (type) {
 
             case SET_BOARD:
-                  console.log('MASUK SET BOARD')
-                  console.log(payload)
                   let array = payload.map(row => row.map(block => block === 0))
-                  console.log(`lewat===================`)
                   return {
                         ...state,
                         data: payload,
-                        isEditable: array
+                        editableBlocks: array
                   }
+
+            case UPDATE_BOARD_BLOCK:
+                  let newData = JSON.parse(JSON.stringify(state.data))
+                  newData[payload.rowIdx][payload.blockIdx] = payload.value
+                  return { ...state, data: newData }
+
 
             case SET_STATUS:
                   return { ...state, status: payload }

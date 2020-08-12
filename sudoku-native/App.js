@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 import Start from './screens/Start';
 import Game from './screens/Game';
 import Finish from './screens/Finish';
+import Leaderboard from './screens/Leaderboard';
 import { Provider } from 'react-redux';
 import store from './store'
 
@@ -31,6 +32,10 @@ export default function App() {
           <Stack.Screen
             name="Finish"
             component={Finish}
+          />
+          <Stack.Screen
+            name="Leaderboard"
+            component={Leaderboard}
           />
           {/* <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Finish" component={Finish} /> */}

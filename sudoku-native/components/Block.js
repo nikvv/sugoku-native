@@ -1,32 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import { View, TextInput, StyleSheet, Text } from 'react-native'
+import { View, TextInput, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
-import { setResultBlockAction } from '../store/actions'
+import { updateBoardBlockAction } from '../store/actions'
+import tailwind from 'tailwind-rn';
 export default function Row({ rowIdx, blockIdx, block, lastCol, isThird }) {
       const dispatch = useDispatch()
-      // const result = useSelector(state => state.resultReducer.data)
-      const isEditable = useSelector(state => state.boardReducer.isEditable)
-
-
-
-
-      if (block == 0) block = ''
-      // let resultValue = 0
-      let disabledStyle = isEditable[rowIdx][blockIdx] ? '300' : '700'
-      if (block > 0) isEdited = false
+      const editableBlocks = useSelector(state => state.boardReducer.editableBlocks)
+      const blockStyle = editableBlocks[rowIdx][blockIdx] ? 'w-10 h-10 text-center bg-gray-300 text-gray-900 border-blue-900 border-l border-t' : 'w-10 h-10 text-center bg-gray-600 text-gray-200 border-blue-900  border-l border-t'
+      const textInputStyle = editableBlocks[rowIdx][blockIdx] ? 'text-center text-gray-900 font-semibold' : 'text-center text-gray-100 font-bold'
       const [value, setValue] = useState(String(block))
 
+
       useEffect(() => {
-            setValue(String(block))
+            setValue(String(block == 0 ? "" : block))
       }, [block])
-
-      // if (result.length) resultValue = result[rowIdx][blockIdx]
-      // let disabledStyle = '400'
-      // if (!isEdited) disabledStyle = '700'
-      //CEK JIKA NILAI BUKAN 0
-      // if (resultValue) block = resultValue
-
-
 
       function onChangeBlock(text) {
             setValue(text)
@@ -35,26 +22,16 @@ export default function Row({ rowIdx, blockIdx, block, lastCol, isThird }) {
                   blockIdx,
                   value: +text
             }
-            dispatch(setResultBlockAction(payload))
+            dispatch(updateBoardBlockAction(payload))
       }
 
       return (
-            <View style={[styles.container, { borderRightWidth: lastCol || isThird }]}>
-                  <TextInput editable={isEditable[rowIdx][blockIdx]} selectTextOnFocus={isEditable[rowIdx][blockIdx]} style={{ textAlign: 'center', fontWeight: disabledStyle }} value={value} keyboardType={'numeric'} maxLength={1}
+            <View style={[, tailwind(blockStyle), { borderRightWidth: lastCol || isThird }]}>
+                  <TextInput style={tailwind(textInputStyle)} editable={editableBlocks[rowIdx][blockIdx]} selectTextOnFocus={editableBlocks[rowIdx][blockIdx]} value={value} keyboardType={'numeric'} maxLength={1}
                         onChangeText={text => onChangeBlock(text)}
-                  >
-
-                  </TextInput>
-
+                  />
             </View>
       )
 }
-const styles = StyleSheet.create({
-      container: {
-            width: 40,
-            height: 40,
-            borderLeftWidth: 1,
-            borderTopWidth: 1,
-      },
-});
+
 
