@@ -16,6 +16,7 @@ export default function Start({ navigation, route }) {
       const dispatch = useDispatch()
       const { difficulty, name } = route.params
       const board = useSelector(state => state.boardReducer.data)
+      const initialBoard = useSelector(state => state.boardReducer.initialBoard)
       const status = useSelector(state => state.boardReducer.status)
       const initialTime = 200
       const [time, setTime] = useState(0)
@@ -28,12 +29,12 @@ export default function Start({ navigation, route }) {
             dispatch(setBoardAsync(payload))
       }, [])
 
-
       useEffect(() => {
-      }, [board])
+            if (status !== '') alert(`Board: ${status}`)
+      }, [status])
 
       function solveBoard() {
-            dispatch(solveBoardAsync(board))
+            dispatch(solveBoardAsync(initialBoard))
       }
 
       function validateBoard() {
@@ -45,6 +46,10 @@ export default function Start({ navigation, route }) {
                   navigation.navigate('Finish', { name, time })
             }
       }
+      function timeUp() {
+            alert('Time Up!')
+            navigation.navigate('Start')
+      }
 
       if (!board.length) return <Loading />
 
@@ -53,7 +58,7 @@ export default function Start({ navigation, route }) {
                   until={initialTime}
                   onChange={(time) => { setTime(initialTime - time) }}
                   running={isRunning}
-                  onFinish={() => alert('finished')}
+                  onFinish={() => timeUp()}
                   onPress={() => alert('hello')}
                   size={15}
                   timeToShow={['M', 'S']}

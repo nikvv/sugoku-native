@@ -1,6 +1,7 @@
 import { SET_BOARD, UPDATE_BOARD_BLOCK, CLEAR_BOARD, SOLVE_BOARD, SET_STATUS } from "../actions/types"
 
 const initialState = {
+      initialBoard: [],
       data: [],
       editableBlocks: [],
       status: ''
@@ -14,6 +15,7 @@ export default (state = initialState, { type, payload }) => {
                   return {
                         ...state,
                         data: payload,
+                        initialBoard: payload,
                         editableBlocks: array
                   }
 

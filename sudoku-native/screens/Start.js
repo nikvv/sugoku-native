@@ -44,7 +44,7 @@ export default function Start({ navigation }) {
                         </View>
                   }
                   <View>
-                        <Text style={tailwind('mt-4 text-2xl font-bold')}>LET'S <Text style={tailwind('text-green-700')}>SU</Text><Text style={tailwind('text-yellow-700')}>GO</Text><Text style={tailwind('text-red-700')}>KU</Text> !</Text>
+                        <Text style={tailwind('mt-4 text-2xl font-bold')}>LET'S <Text style={tailwind('text-green-600')}>SU</Text><Text style={tailwind('text-yellow-600')}>GO</Text><Text style={tailwind('text-red-600')}>KU</Text> !</Text>
                   </View>
                   <View style={tailwind('mt-10')}>
                         <Text style={tailwind('text-gray-900 text-sm')}>Your name here:</Text>
